@@ -1,0 +1,22 @@
+{
+  "name": "woppy.cloud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "leaflet": "^1.5.1",
+    "next": "^9.1.3",
+    "papaparse": "^5.1.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-leaflet": "^2.5.0"
+  }
+}
