@@ -32,11 +32,35 @@ const WeatherDisplay = ({ location = {} }) => {
       {typeof weatherData === 'object' && typeof weatherData.main === 'object' && (
         <dl>
           <dt>high</dt>
-          <dd>{weatherData.main.temp_max}°F</dd>
+          <dd>{weatherData.main.temp_max} °F</dd>
           <dt>low</dt>
-          <dd>{weatherData.main.temp_min}°F</dd>
+          <dd>{weatherData.main.temp_min} °F</dd>
           <dt>humidity</dt>
-          <dd>{weatherData.main.humidity}%</dd>
+          <dd>{weatherData.main.humidity} %</dd>
+          {typeof weatherData.wind === 'object' && (
+            <>
+              <dt>wind</dt>
+              <dd>{weatherData.wind.speed} mph</dd>
+            </>
+          )}
+          {typeof weatherData.clouds === 'object' && (
+            <>
+              <dt>cloudiness</dt>
+              <dd>{weatherData.clouds.all} %</dd>
+            </>
+          )}
+          {typeof weatherData.rain === 'object' && (
+            <>
+              <dt>rain volume</dt>
+              <dd>{weatherData.rain['1h']} mm</dd>
+            </>
+          )}
+          {typeof weatherData.snow === 'object' && (
+            <>
+              <dt>snow volume</dt>
+              <dd>{weatherData.snow['1h']} %</dd>
+            </>
+          )}
         </dl>
       )}
       <style jsx>{`

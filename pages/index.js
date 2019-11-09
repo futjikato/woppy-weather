@@ -10,12 +10,21 @@ const DynamicCityDetails = dynamic(
   { ssr: false }
 );
 
+const DynamicAudioHandler = dynamic(
+  () => import('../components/AudioHandler'),
+  { ssr: false }
+);
+
 const IndexPage = () => {
   const [currentLocation, setCurrentLocation] = useState();
+  const [pn, setPlayNumber] = useState('');
+  const [enableAudio, setEnableAudio] = useState(false);
 
   useEffect(() => {
-    console.log(currentLocation);
-  }, [currentLocation]);
+    if (currentLocation && currentLocation.zip) {
+      setPlayNumber(currentLocation.zip);
+    }
+  }, [ currentLocation ])
 
   return (
     <div className="bg">
@@ -25,6 +34,11 @@ const IndexPage = () => {
       <div className="container">
         <RobotFrame>
           <RandomLocation onUpdate={setCurrentLocation} />
+          {enableAudio && <DynamicAudioHandler playNumber={pn} enabled={true} />}
+          <div>
+            <label>Use audio</label>
+            <input type="checkbox" checked={enableAudio} onChange={e => setEnableAudio(e.currentTarget.checked)} />
+          </div>
           <DynamicCityDetails location={currentLocation} />
           <WeatherDisplay location={currentLocation} />
         </RobotFrame>

@@ -11,7 +11,7 @@ const CityDetails = ({ location }) => {
     <div>
       <h2>{zip} {city} ( {state_name} )</h2>
       <div className="map">
-        <Map center={[location.lat, location.lng]} zoom="13" style={{height: '400px'}}>
+        <Map center={[location.lat, location.lng]} zoom="7" style={{height: '400px'}}>
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
