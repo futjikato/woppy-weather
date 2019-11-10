@@ -9,7 +9,7 @@ const RandomLocation = ({ onUpdate = () => {} }) => {
     setError('');
 
     try {
-      const locationBody = await fetch('/api/_location');
+      const locationBody = await fetch('/api/location');
       const location = await locationBody.json();
       onUpdate(location);
     } catch (e) {
