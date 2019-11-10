@@ -1,8 +1,12 @@
-const fs = require('fs');
-const Papa = require('papaparse');
+import fs from 'fs';
+import path from 'path';
+import Papa from 'papaparse';
+import getConfig from 'next/config';
+const { serverRuntimeConfig } = getConfig();
 
 export default (req, res) => {
-  fs.readFile('public/uszips.csv', (err, data) => {
+  const filePath = path.join(serverRuntimeConfig.PROJECT_ROOT, './public/uszips.csv')
+  fs.readFile(filePath, (err, data) => {
     if (err) {
       res.setHeader('Content-Type', 'application/json')
       res.statusCode = 500;
