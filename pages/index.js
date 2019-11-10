@@ -30,14 +30,15 @@ const IndexPage = () => {
     <div className="bg">
       <Head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" />
+        <title>Woppy's weather webpage</title>
       </Head>
       <div className="container">
         <RobotFrame>
           <RandomLocation onUpdate={setCurrentLocation} />
           {enableAudio && <DynamicAudioHandler playNumber={pn} enabled={true} />}
           <div>
-            <label>Use audio</label>
-            <input type="checkbox" checked={enableAudio} onChange={e => setEnableAudio(e.currentTarget.checked)} />
+            <label htmlFor="enable_audio">Use audio</label>
+            <input type="checkbox" id="enable_audio" checked={enableAudio} onChange={e => setEnableAudio(e.currentTarget.checked)} />
           </div>
           <DynamicCityDetails location={currentLocation} />
           <WeatherDisplay location={currentLocation} />
