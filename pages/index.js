@@ -19,6 +19,39 @@ const IndexPage = () => {
   const [currentLocation, setCurrentLocation] = useState();
   const [pn, setPlayNumber] = useState('');
   const [enableAudio, setEnableAudio] = useState(false);
+  const [audioContext, setAudioContext] = useState();
+
+  const toggleEnableAudio = e => {
+    if (!audioContext) {
+      let newAudioContext;
+      if (typeof AudioContext === 'function') {
+        newAudioContext = new AudioContext();
+      } else if (typeof window.webkitAudioContext === 'function') {
+        newAudioContext = new window.webkitAudioContext();
+      } else {
+        console.log('unable to create audio context');
+        return;
+      }
+
+      const buffer = newAudioContext.createBuffer(1, 1, 22050);
+			const source = newAudioContext.createBufferSource();
+			source.buffer = buffer;
+			// Connect to output (speakers)
+			source.connect(newAudioContext.destination);
+			// Play sound
+			if (source.start) {
+				source.start(0);
+			} else if (source.play) {
+				source.play(0);
+			} else if (source.noteOn) {
+				source.noteOn(0);
+			}
+
+      setAudioContext(newAudioContext); 
+    }
+
+    setEnableAudio(e.currentTarget.checked);
+  };
 
   useEffect(() => {
     if (currentLocation && currentLocation.zip) {
@@ -35,10 +68,10 @@ const IndexPage = () => {
       <div className="container">
         <RobotFrame>
           <RandomLocation onUpdate={setCurrentLocation} />
-          {enableAudio && <DynamicAudioHandler playNumber={pn} enabled={true} />}
+          {enableAudio && <DynamicAudioHandler playNumber={pn} enabled={true} audioContext={audioContext} />}
           <div>
             <label htmlFor="enable_audio">Use audio</label>
-            <input type="checkbox" id="enable_audio" checked={enableAudio} onChange={e => setEnableAudio(e.currentTarget.checked)} />
+            <input type="checkbox" id="enable_audio" checked={enableAudio} onChange={toggleEnableAudio} />
           </div>
           <DynamicCityDetails location={currentLocation} />
           <WeatherDisplay location={currentLocation} />

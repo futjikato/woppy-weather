@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const AudioHandler = ({ playNumber = '', enabled = false }) => {
+const AudioHandler = ({ playNumber = '', enabled = false, audioContext = null }) => {
   const welcomeRef = React.createRef();
   const zeroRef = React.createRef();
   const oneRef = React.createRef();
@@ -18,55 +18,58 @@ const AudioHandler = ({ playNumber = '', enabled = false }) => {
   const [ gain, setGain ] = useState(0.8);
   const [ gainNode, setGainNode ] = useState();
   
-  const playChar = c => {
-    console.log('play char', c);
-    switch(c) {
-      case 'w':
-        welcomeRef.current.play();
-        break;
+  const playChar = async c => {
+    try {
+      switch(c) {
+        case 'w':
+          await welcomeRef.current.play();
+          break;
 
-      case '0':
-        zeroRef.current.play();
-        break;
+        case '0':
+          await zeroRef.current.play();
+          break;
 
-      case '1':
-        oneRef.current.play();
-        break;
+        case '1':
+          await oneRef.current.play();
+          break;
 
-      case '2':
-        twoRef.current.play();
-        break;
+        case '2':
+          await twoRef.current.play();
+          break;
 
-      case '3':
-        threeRef.current.play();
-        break;
+        case '3':
+          await threeRef.current.play();
+          break;
 
-      case '4':
-        fourRef.current.play();
-        break;
+        case '4':
+          await fourRef.current.play();
+          break;
 
-      case '5':
-        fiveRef.current.play();
-        break;
+        case '5':
+          await fiveRef.current.play();
+          break;
 
-      case '6':
-        sixRef.current.play();
-        break;
+        case '6':
+          await sixRef.current.play();
+          break;
 
-      case '7':
-        sevenRef.current.play();
-        break;
+        case '7':
+          await sevenRef.current.play();
+          break;
 
-      case '8':
-        eightRef.current.play();
-        break;
+        case '8':
+          await eightRef.current.play();
+          break;
 
-      case '9':
-        nineRef.current.play();
-        break;
+        case '9':
+          await nineRef.current.play();
+          break;
 
-      default:
-        onLineEnd();
+        default:
+          onLineEnd();
+      }
+    } catch (e) {
+      console.error('prop on ios and web audio is a bitch', e);
     }
   };
 
@@ -99,7 +102,10 @@ const AudioHandler = ({ playNumber = '', enabled = false }) => {
   }, [gain]);
 
   const doInitAudio = () => {
-    const audioContext = new AudioContext();
+    if (!audioContext) {
+      return;
+    }
+
     const newGainNode = audioContext.createGain();
     newGainNode.gain.value = gain;
     newGainNode.connect(audioContext.destination);
